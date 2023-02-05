@@ -12,9 +12,12 @@ exports.createUser = async (req, res) => {
     if (!name || !email) {
       throw new Error("Name and Email are Required");
     }
-    const userExits = await User.findOne({ email });
+    const userExits = await User.findOne({ email }).exec();
     if (userExits) {
-      throw new Error("Email Already Exists");
+      res.status(401).json({
+        success: false,
+        message: "email already exist in list",
+      });
     }
     // Inserting into the Database
 
